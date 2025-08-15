@@ -1,8 +1,8 @@
-import RegisterAccountForm from "@/app/components/registerAccountForm";
+import RegisterClientForm from "@/app/components/registerClientForm";
 export default function AClientCreatePage() {
   return (
     <div>
-      <RegisterAccountForm />
+      <RegisterClientForm />
     </div>
   );
 }
