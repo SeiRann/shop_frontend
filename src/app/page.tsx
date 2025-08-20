@@ -1,3 +1,7 @@
 export default function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <a href="/account">Account</a>
+    </div>
+  );
 }

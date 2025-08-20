@@ -1,4 +1,6 @@
+"use client";
 import "./globals.css";
+import { GlobalContext } from "./context/globalContext";
 
 export default function RootLayout({
   children,
@@ -6,8 +8,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <GlobalContext value={{ isLoggedIn: false }}>
+      <html lang="en">
+        <body>
+          <a href="/">Home</a>
+          {children}
+        </body>
+      </html>
+    </GlobalContext>
   );
 }
