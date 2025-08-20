@@ -1,7 +1,9 @@
 "use client"; // make this a client component
 import { redirect } from "next/navigation";
+import { useGlobalContext } from "../context/globalContext";
 
 export default function LoginClientForm() {
+  const { isLoggedIn, setIsLoggedIn } = useGlobalContext();
   const onRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // prevent page reload
 
@@ -11,8 +13,8 @@ export default function LoginClientForm() {
       password: formData.get("password"),
     };
 
-    console.log(process.env.NEXT_PUBLIC_API_URL + "client/");
-    console.log(JSON.stringify(data));
+    // console.log(process.env.NEXT_PUBLIC_API_URL + "client/");
+    // console.log(JSON.stringify(data));
     // call your backend API
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       method: "POST",
@@ -22,11 +24,13 @@ export default function LoginClientForm() {
     });
 
     if (res.ok) {
+      setIsLoggedIn(true);
+      console.log();
       console.log("Client created successfully!");
       redirect("/");
     } else {
-      console.log(process.env.DB_URL + "client/");
-      console.log(JSON.stringify(data));
+      //   console.log(process.env.DB_URL + "client/");
+      //   console.log(JSON.stringify(data));
       console.error("Error creating client");
     }
   };

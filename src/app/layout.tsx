@@ -1,6 +1,7 @@
 "use client";
 import "./globals.css";
-import { GlobalContext } from "./context/globalContext";
+import { GlobalProvider } from "./context/globalContext";
+import Link from "next/link";
 
 export default function RootLayout({
   children,
@@ -8,13 +9,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <GlobalContext value={{ isLoggedIn: false }}>
+    <GlobalProvider>
       <html lang="en">
         <body>
-          <a href="/">Home</a>
+          <Link href="/">Home</Link>
           {children}
         </body>
       </html>
-    </GlobalContext>
+    </GlobalProvider>
   );
 }

@@ -1,11 +1,26 @@
 "use client";
+import { createContext, useContext, useState } from "react";
 
-import { createContext, useContext } from "react";
+type GlobalContextType = {
+  isLoggedIn: boolean;
+  setIsLoggedIn: (val: boolean) => void;
+};
 
-export const GlobalContext = createContext<{ isLoggedIn: false }>({
-  isLoggedIn: false,
-});
+const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
+
+export function GlobalProvider({ children }: { children: React.ReactNode }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  return (
+    <GlobalContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      {children}
+    </GlobalContext.Provider>
+  );
+}
 
 export function useGlobalContext() {
-  return useContext(GlobalContext);
+  const context = useContext(GlobalContext);
+  if (!context)
+    throw new Error("useGlobalContext must be used inside GlobalProvider");
+  return context;
 }

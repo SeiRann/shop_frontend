@@ -6,9 +6,10 @@ import { useGlobalContext } from "../context/globalContext";
 
 export default function AccountPage() {
   const [showSignIn, setShowSignIn] = useState(false);
-  const context = useGlobalContext();
+  const { isLoggedIn } = useGlobalContext();
 
-  return !context.isLoggedIn ? (
+  console.log(isLoggedIn);
+  return !isLoggedIn ? (
     <div>
       <h1>Account Page</h1>
       {showSignIn ? (
@@ -34,6 +35,8 @@ export default function AccountPage() {
       )}
     </div>
   ) : (
-    <div></div>
+    <div>
+      <button>Log out</button>
+    </div>
   );
 }
