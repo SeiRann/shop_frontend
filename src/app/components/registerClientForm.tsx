@@ -1,7 +1,8 @@
 "use client"; // make this a client component
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function RegisterClientForm() {
+  const router = useRouter();
   const onRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // prevent page reload
 
@@ -25,7 +26,7 @@ export default function RegisterClientForm() {
 
     if (res.ok) {
       console.log("Client created successfully!");
-      redirect("/");
+      router.push("/");
     } else {
       console.log(process.env.DB_URL + "client/");
       console.log(JSON.stringify(data));

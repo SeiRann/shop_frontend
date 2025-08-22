@@ -1,9 +1,10 @@
 "use client"; // make this a client component
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useGlobalContext } from "../context/globalContext";
 
 export default function LoginClientForm() {
-  const { isLoggedIn, setIsLoggedIn } = useGlobalContext();
+  const router = useRouter();
+  const { setIsAdmin, isAdmin, isLoggedIn, setIsLoggedIn } = useGlobalContext();
   const onRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // prevent page reload
 
@@ -23,15 +24,24 @@ export default function LoginClientForm() {
       credentials: "include",
     });
 
+    const adminRes = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/admin`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    if (adminRes.status === 200) {
+      setIsAdmin(true);
+    }
+
     if (res.ok) {
       setIsLoggedIn(true);
-      console.log();
-      console.log("Client created successfully!");
-      redirect("/");
+      router.push("/");
     } else {
       //   console.log(process.env.DB_URL + "client/");
       //   console.log(JSON.stringify(data));
-      console.error("Error creating client");
+      console.error("Error signing in client");
     }
   };
 

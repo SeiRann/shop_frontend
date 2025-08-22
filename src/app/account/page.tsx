@@ -6,9 +6,24 @@ import { useGlobalContext } from "../context/globalContext";
 
 export default function AccountPage() {
   const [showSignIn, setShowSignIn] = useState(false);
-  const { isLoggedIn } = useGlobalContext();
+  const { isLoggedIn, setIsLoggedIn, setIsAdmin } = useGlobalContext();
 
-  console.log(isLoggedIn);
+  const onLogOut = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+
+    if (res.ok) {
+      console.log("User successfully logged out!");
+    } else {
+      console.log("Log out failed!");
+    }
+  };
+
   return !isLoggedIn ? (
     <div>
       <h1>Account Page</h1>
@@ -36,7 +51,7 @@ export default function AccountPage() {
     </div>
   ) : (
     <div>
-      <button>Log out</button>
+      <button onClick={() => onLogOut()}>Log out</button>
     </div>
   );
 }

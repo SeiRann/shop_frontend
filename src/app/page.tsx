@@ -3,12 +3,12 @@ import { useGlobalContext } from "./context/globalContext";
 import Link from "next/link";
 
 export default function Home() {
-  const { isLoggedIn } = useGlobalContext();
+  const { isAdmin } = useGlobalContext();
 
-  console.log(isLoggedIn);
   return (
     <div>
       <Link href="/account">Account</Link>
+      {isAdmin ? <Link href="/admin">Admin</Link> : <></>}
     </div>
   );
 }
