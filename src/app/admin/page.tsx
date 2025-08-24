@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function AdminPage() {
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ export default function AdminPage() {
   return (
     <div>
       <h1>Admin Page</h1>
+      <Link href="/admin/products">Products</Link>
     </div>
   );
 }
