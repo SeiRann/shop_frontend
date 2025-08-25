@@ -26,6 +26,7 @@ export function ProductViewCard(product: IProduct) {
         src={product.image}
         alt=""
       />
+      <p>{product.product_id}</p>
       <h1>{product.title}</h1>
       <p>{product.description}</p>
       <p>{product.stock}</p>

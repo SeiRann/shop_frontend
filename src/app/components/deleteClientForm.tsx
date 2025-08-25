@@ -1,6 +1,9 @@
 "use client";
+import { useRouter } from "next/router";
 
 export default function DeleteClientForm() {
+  const router = useRouter();
+
   const onDeleteSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -14,11 +17,13 @@ export default function DeleteClientForm() {
       {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       },
     );
 
     if (result.ok) {
       console.log("Client Successfully deleted");
+      router.push("/admin/clients/");
     } else {
       console.error("Failed Deleteing Client");
     }
