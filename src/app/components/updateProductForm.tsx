@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 
 import { IProduct } from "./productViewCard";
+import Image from "next/image";
 
 interface UpdateProductFormProps {
     product: IProduct;
@@ -67,6 +68,19 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
             <form onSubmit={onProductUpdateSubmit}>
                 <div className="flex flex-col gap-3">
                     <h1 className="text-3xl">Product Update Form</h1>
+                    {product?.image ? (
+                        <div>
+                            <h1>Image</h1>
+                            <Image
+                                width={300}
+                                height={300}
+                                src={product.image}
+                                alt="missing image"
+                            />
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                     <label htmlFor="product_id">Product ID</label>
                     <input
                         type="text"
