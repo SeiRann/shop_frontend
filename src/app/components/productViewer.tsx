@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { Constants } from "../constants";
 import { IProduct, ProductViewCard } from "./productViewCard";
+import PageSelector from "./pageSelector";
 
 export default function ProductViewer() {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
-    const fetchProducts = async () => {
+    const [lastPage, setLastPage] = useState<number>();
+    const fetchProducts = async (page: number) => {
         const result = await fetch(
             `${Constants.server_url}/product/page/${page}`,
             {
@@ -22,12 +24,13 @@ export default function ProductViewer() {
     };
 
     useEffect(() => {
-        fetchProducts().finally(() => setLoading(false));
-    }, []);
+        fetchProducts(page).finally(() => setLoading(false));
+    }, [page]);
 
     if (loading) {
         return <div>Loading...</div>;
     }
+
     return (
         <div className="w-full p-5">
             <h1>Products Viewer</h1>
@@ -44,6 +47,13 @@ export default function ProductViewer() {
                     />
                 ))}
             </div>
+            <PageSelector
+                currentPage={page}
+                length={products.length}
+                setPage={setPage}
+                setLoading={setLoading}
+                lastPage={lastPage}
+            />
         </div>
     );
 }
