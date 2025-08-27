@@ -1,6 +1,12 @@
 "use client";
 
-export default function ProductDeleteForm() {
+interface IProductDeleteFormProps {
+    props: {
+        product_id: string;
+    };
+}
+
+export default function ProductDeleteForm({ props }: IProductDeleteFormProps) {
     const onDeleteSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -35,6 +41,7 @@ export default function ProductDeleteForm() {
                         type="text"
                         name="product_id"
                         className="bg-amber-200"
+                        defaultValue={props?.product_id}
                     />
                     <button className="bg-red-500 rounded-sm">
                         Delete Product
