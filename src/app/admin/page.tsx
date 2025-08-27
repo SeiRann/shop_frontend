@@ -4,34 +4,34 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AdminPage() {
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
-  const checkAdmin = async () => {
-    const result = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/admin`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
+    const checkAdmin = async () => {
+        const result = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/admin`,
+            {
+                method: "GET",
+                credentials: "include",
+            },
+        );
+        if (result.status === 401) {
+            router.push("/");
+        }
+    };
+
+    useEffect(() => {
+        checkAdmin().finally(() => setLoading(false));
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+
+    return (
+        <div>
+            <h1>Admin Page</h1>
+            <Link href="/admin/products">Products</Link>
+            <Link href="/admin/clients">Clients</Link>
+            <Link href="/admin/reviews">Reviews</Link>
+        </div>
     );
-    if (result.status === 401) {
-      router.push("/");
-    }
-  };
-
-  useEffect(() => {
-    checkAdmin().finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-
-  return (
-    <div>
-      <h1>Admin Page</h1>
-      <Link href="/admin/products">Products</Link>
-      <Link href="/admin/clients">Clients</Link>
-      <Link href="/admin/reviews">Reviews</Link>
-    </div>
-  );
 }
