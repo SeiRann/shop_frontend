@@ -1,15 +1,13 @@
 "use client"; // make this a client component
 import { useRouter } from "next/navigation";
 
-// interface ICreateProduct {
-//   file:
-//   description: string;
-//   title: string;
-//   stock: number;
-//   sizes: string;
-// }
+import { IProduct } from "./productViewCard";
 
-export default function UpdateProductForm() {
+interface UpdateProductFormProps {
+    product: IProduct;
+}
+
+export default function UpdateProductForm({ product }: UpdateProductFormProps) {
     const router = useRouter();
 
     const onProductUpdateSubmit = async (
@@ -74,23 +72,36 @@ export default function UpdateProductForm() {
                         type="text"
                         name="product_id"
                         className="bg-amber-200"
+                        defaultValue={product?.product_id}
                     />
                     <label htmlFor="title">Title</label>
-                    <input type="text" name="title" className="bg-amber-200" />
+                    <input
+                        type="text"
+                        name="title"
+                        className="bg-amber-200"
+                        defaultValue={product?.title}
+                    />
                     <label htmlFor="description">Description</label>
                     <input
                         type="text"
                         name="description"
                         className="bg-amber-200"
+                        defaultValue={product?.description}
                     />
                     <label htmlFor="stock">Stock</label>
                     <input
                         type="number"
                         name="stock"
                         className="bg-amber-200"
+                        defaultValue={product?.stock}
                     />
                     <label htmlFor="sizes">Sizes</label>
-                    <input type="text" name="sizes" className="bg-amber-200" />
+                    <input
+                        type="text"
+                        name="sizes"
+                        className="bg-amber-200"
+                        defaultValue={product?.sizes}
+                    />
                     <label htmlFor="sizes">Product Image</label>
                     <input type="file" name="file" className="bg-amber-200" />
                     <button type="submit" className="bg-blue-500 rounded-sm">

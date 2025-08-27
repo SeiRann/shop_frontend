@@ -8,10 +8,13 @@ export default function ProductViewer() {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const fetchProducts = async () => {
-        const result = await fetch(`${Constants.server_url}/product/${page}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const result = await fetch(
+            `${Constants.server_url}/product/page/${page}`,
+            {
+                method: "GET",
+                credentials: "include",
+            },
+        );
 
         if (result.ok) {
             setProducts(await result.json());
