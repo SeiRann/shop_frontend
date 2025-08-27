@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { useEffect, createContext, useContext, useState } from "react";
+import { Constants } from "../constants";
 
 type GlobalContextType = {
     isLoggedIn: boolean;
@@ -13,12 +14,39 @@ const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 export function GlobalProvider({ children }: { children: React.ReactNode }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const checkLoggedIn = async () => {
+        const result = await fetch(`${Constants.server_url}/auth/isloggedin`, {
+            credentials: "include",
+            method: "GET",
+        });
+
+        if (result.ok) {
+            setIsLoggedIn(true);
+        }
+    };
+
+    const checkAdmin = async () => {
+        const result = await fetch(`${Constants.server_url}/auth/admin`, {
+            method: "GET",
+            credentials: "include",
+        });
+        if (result.ok) {
+            setIsAdmin(true);
+        }
+    };
+
+    useEffect(() => {
+        checkAdmin();
+        checkLoggedIn().finally(() => setLoading(false));
+    }, []);
 
     return (
         <GlobalContext.Provider
             value={{ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin }}
         >
-            {children}
+            {loading ? <div>loading...</div> : children}
         </GlobalContext.Provider>
     );
 }

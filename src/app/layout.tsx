@@ -9,13 +9,13 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <GlobalProvider>
-            <html lang="en">
-                <body>
+        <html lang="en">
+            <body>
+                <GlobalProvider>
                     <Link href="/">Home</Link>
                     {children}
-                </body>
-            </html>
-        </GlobalProvider>
+                </GlobalProvider>
+            </body>
+        </html>
     );
 }
