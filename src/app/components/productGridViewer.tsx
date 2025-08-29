@@ -4,7 +4,7 @@ import { Constants } from "../constants";
 import { IProduct, ProductViewCard } from "./productViewCard";
 import PageSelector from "./pageSelector";
 
-export default function ProductViewer() {
+export default function ProductGridViewer() {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
@@ -43,6 +43,7 @@ export default function ProductViewer() {
                         description={product.description}
                         sizes={product.sizes}
                         stock={product.stock}
+                        price={product.price}
                         product_id={product.product_id}
                     />
                 ))}

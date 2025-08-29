@@ -67,6 +67,12 @@ export default function CreateProductForm() {
                     <h1 className="text-3xl">Product Creation Form</h1>
                     <label htmlFor="title">Title</label>
                     <input type="text" name="title" className="bg-amber-200" />
+                    <label htmlFor="price">Price</label>
+                    <input
+                        type="number"
+                        name="price"
+                        className="bg-amber-200"
+                    />
                     <label htmlFor="description">Description</label>
                     <input
                         type="text"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProductViewer from "@/app/components/productViewer";
+import ProductViewer from "@/app/components/productGridViewer";
 export default function ProductsAdminPage() {
     return (
         <div>
