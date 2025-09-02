@@ -1,4 +1,3 @@
-"use client";
 import { Constants } from "../constants";
 import { useRouter } from "next/navigation";
 
@@ -32,6 +31,11 @@ export default function ReviewForm(props: ReviewFormProps) {
 
         if (result.ok) {
             console.log("Review created");
+            console.log(Constants.client_url);
+            //Shit aint working
+            router.replace(props.product_id);
+        } else {
+            console.error("Failed creating the review");
         }
     };
 
