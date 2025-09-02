@@ -1,6 +1,7 @@
 import { IProduct } from "@/app/components/productViewCard";
 import Image from "next/image";
 import ReviewForm from "./reviewForm";
+import ReviewGridViewer from "./reviewGridViewer";
 
 interface productPageProps {
     product: IProduct;
@@ -35,6 +36,7 @@ export default function ProductPage({ product }: productPageProps) {
             <div>
                 <h1>ReviewPart</h1>
                 <ReviewForm product_id={product.product_id} />
+                <ReviewGridViewer product_id={product.product_id} />
             </div>
         </div>
     );
