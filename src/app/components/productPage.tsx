@@ -2,12 +2,14 @@ import { IProduct } from "@/app/components/productViewCard";
 import Image from "next/image";
 import ReviewForm from "./reviewForm";
 import ReviewGridViewer from "./reviewGridViewer";
+import { useState } from "react";
 
 interface productPageProps {
     product: IProduct;
 }
 
 export default function ProductPage({ product }: productPageProps) {
+    const [refetchTrigger, setRefetchTrigger] = useState<boolean>(false);
     return (
         <div>
             <div className="flex justify-evenly gap-10 p-4 ">
@@ -35,8 +37,17 @@ export default function ProductPage({ product }: productPageProps) {
             </div>
             <div>
                 <h1>ReviewPart</h1>
-                <ReviewForm product_id={product.product_id} />
-                <ReviewGridViewer product_id={product.product_id} />
+                <ReviewForm
+                    refetchReviews={() => {
+                        setRefetchTrigger(true);
+                    }}
+                    product_id={product.product_id}
+                />
+                <ReviewGridViewer
+                    product_id={product.product_id}
+                    refetchTrigger={refetchTrigger}
+                    setRefetchTrigger={setRefetchTrigger}
+                />
             </div>
         </div>
     );

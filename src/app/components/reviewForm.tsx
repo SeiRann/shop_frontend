@@ -1,9 +1,10 @@
 import { Constants } from "../constants";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useGlobalContext } from "../context/globalContext";
 
 interface ReviewFormProps {
     product_id: string;
+    refetchReviews: () => void;
 }
 
 export default function ReviewForm(props: ReviewFormProps) {
@@ -34,8 +35,7 @@ export default function ReviewForm(props: ReviewFormProps) {
         if (result.ok) {
             console.log("Review created");
             console.log(Constants.client_url);
-            //Shit aint working
-            router.replace(props.product_id);
+            props.refetchReviews();
         } else {
             console.error("Failed creating the review");
         }
@@ -72,6 +72,7 @@ export default function ReviewForm(props: ReviewFormProps) {
                     <button
                         type="submit"
                         className="rounded-sm bg-blue-400 p-2 "
+                        onClick={props.refetchReviews}
                     >
                         Post Review
                     </button>

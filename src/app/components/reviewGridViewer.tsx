@@ -5,6 +5,8 @@ import ReviewViewCard from "./reviewViewCard";
 
 interface ReviewGridViewerProps {
     product_id: string;
+    refetchTrigger: boolean;
+    setRefetchTrigger: (state: boolean) => void;
 }
 
 interface ReviewProperties {
@@ -39,7 +41,12 @@ export default function ReviewGridViewer(props: ReviewGridViewerProps) {
 
     useEffect(() => {
         fetchReviews().finally(() => setLoading(false));
-    }, []);
+        if (props.refetchTrigger) {
+            setLoading(true);
+            fetchReviews().finally(() => setLoading(false));
+            props.setRefetchTrigger(false);
+        }
+    }, [props.refetchTrigger]);
 
     if (loading) return <div>Loading...</div>;
 
