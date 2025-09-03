@@ -41,7 +41,7 @@ export default function LoginClientForm() {
 
         if (res.ok) {
             setIsLoggedIn(true);
-            router.push("/");
+            router.back();
         } else {
             //   console.log(process.env.DB_URL + "client/");
             //   console.log(JSON.stringify(data));
