@@ -39,7 +39,7 @@ export default function UpdateProductForm({ product }: UpdateProductFormProps) {
 
         if (res.ok) {
             console.log("Product updated successfully!");
-            router.push("/admin/products");
+            router.back();
         } else {
             console.log(formData);
             console.error("Error creating product");

@@ -23,7 +23,7 @@ export default function DeleteClientForm() {
 
         if (result.ok) {
             console.log("Client Successfully deleted");
-            router.push("/admin/clients/");
+            router.back();
         } else {
             console.error("Failed Deleteing Client");
         }

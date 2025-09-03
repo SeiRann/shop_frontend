@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 interface IProductDeleteFormProps {
     props: {
@@ -7,6 +8,8 @@ interface IProductDeleteFormProps {
 }
 
 export default function ProductDeleteForm({ props }: IProductDeleteFormProps) {
+    const router = useRouter();
+
     const onDeleteSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -26,6 +29,7 @@ export default function ProductDeleteForm({ props }: IProductDeleteFormProps) {
 
         if (result.ok) {
             console.log("Product Successfully deleted");
+            router.back();
         } else {
             console.error("Failed Deleteing Product");
         }

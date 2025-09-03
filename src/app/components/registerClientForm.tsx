@@ -76,7 +76,7 @@ export default function RegisterClientForm() {
 
             if (res.ok) {
                 console.log("Client created successfully!");
-                router.push("/");
+                router.back();
             } else {
                 console.log(process.env.DB_URL + "client/");
                 console.log(JSON.stringify(data));

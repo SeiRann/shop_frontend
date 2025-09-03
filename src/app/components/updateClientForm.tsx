@@ -1,8 +1,10 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function UpdateClientForm() {
+    const router = useRouter();
+
     const onUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -27,7 +29,7 @@ export default function UpdateClientForm() {
 
         if (result.ok) {
             console.log("Client Info successfully update");
-            redirect("/");
+            router.back();
         } else {
             console.error("Failed Client update");
         }

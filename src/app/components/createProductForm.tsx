@@ -36,7 +36,7 @@ export default function CreateProductForm() {
 
         if (res.ok) {
             console.log("Product created successfully!");
-            router.push("/admin/products");
+            router.back();
         } else {
             console.log(formData);
             console.error("Error creating product");
