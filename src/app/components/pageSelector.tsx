@@ -9,7 +9,6 @@ interface PageSelectorProps {
 export default function PageSelector({
     length,
     currentPage,
-    lastPage,
     setPage,
     setLoading,
 }: PageSelectorProps) {

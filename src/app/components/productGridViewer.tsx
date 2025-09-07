@@ -8,7 +8,6 @@ export default function ProductGridViewer() {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState<IProduct[]>([]);
-    const [lastPage, setLastPage] = useState<number>();
     const fetchProducts = async (page: number) => {
         const result = await fetch(
             `${Constants.server_url}/product/page/${page}`,
@@ -48,7 +47,6 @@ export default function ProductGridViewer() {
                 length={products.length}
                 setPage={setPage}
                 setLoading={setLoading}
-                lastPage={lastPage}
             />
         </div>
     );
