@@ -7,7 +7,7 @@ import PageSelector from "./pageSelector";
 export default function ProductGridViewer() {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<IProduct[]>([]);
     const [lastPage, setLastPage] = useState<number>();
     const fetchProducts = async (page: number) => {
         const result = await fetch(
@@ -38,13 +38,8 @@ export default function ProductGridViewer() {
                 {products.map((product: IProduct) => (
                     <ProductViewCard
                         key={product.product_id}
-                        image={product.image}
-                        title={product.title}
-                        description={product.description}
-                        sizes={product.sizes}
-                        stock={product.stock}
-                        price={product.price}
-                        product_id={product.product_id}
+                        product={product}
+                        isAdmin={true}
                     />
                 ))}
             </div>

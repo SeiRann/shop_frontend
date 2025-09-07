@@ -17,10 +17,9 @@ export default function AccountPage() {
             },
         );
 
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-
         if (res.ok) {
+            setIsLoggedIn(false);
+            setIsAdmin(false);
             console.log("User successfully logged out!");
         } else {
             console.log("Log out failed!");
