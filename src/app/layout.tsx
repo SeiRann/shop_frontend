@@ -12,7 +12,6 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <GlobalProvider>
-                    <Link href="/">Home</Link>
                     {children}
                 </GlobalProvider>
             </body>

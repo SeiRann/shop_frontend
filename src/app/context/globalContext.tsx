@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, createContext, useContext, useState } from "react";
 import { Constants } from "../constants";
+import NavBar from "../components/navBar";
 
 type GlobalContextType = {
     isLoggedIn: boolean;
@@ -46,6 +47,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
         <GlobalContext.Provider
             value={{ isLoggedIn, setIsLoggedIn, isAdmin, setIsAdmin }}
         >
+            <NavBar />
             {loading ? <div>loading...</div> : children}
         </GlobalContext.Provider>
     );
