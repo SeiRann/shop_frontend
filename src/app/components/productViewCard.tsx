@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useGlobalContext } from "../context/globalContext";
 
 export interface IProduct {
     product_id: string;
@@ -13,11 +14,11 @@ export interface IProduct {
 
 interface IProductViewCardProps {
     product: IProduct;
-    isAdmin: boolean;
 }
 
 export function ProductViewCard(props: IProductViewCardProps) {
     const router = useRouter();
+    const { isAdmin } = useGlobalContext();
     const parseSizes = (sizes: Array<string>) => {
         let sizesString = "";
 
@@ -29,7 +30,11 @@ export function ProductViewCard(props: IProductViewCardProps) {
         <div className="bg-amber-200 rounded-md w-2xs p-2 hover:cursor-pointer">
             <div
                 onClick={() => {
-                    router.push(`/admin/products/${props.product.product_id}`);
+                    isAdmin
+                        ? router.push(
+                              `admin/products/${props.product.product_id}`,
+                          )
+                        : router.push(`/products/${props.product.product_id}`);
                 }}
             >
                 <Image
@@ -39,14 +44,18 @@ export function ProductViewCard(props: IProductViewCardProps) {
                     src={props.product.image}
                     alt=""
                 />
-                <p className="text-xs">{props.product.product_id}</p>
+                {isAdmin ? (
+                    <p className="text-xs">{props.product.product_id}</p>
+                ) : (
+                    <></>
+                )}
                 <h1>{props.product.title}</h1>
                 <p>{props.product.description}</p>
                 <p>{props.product.stock}</p>
                 <p>{props.product.price}</p>
                 <p>{parseSizes(props.product.sizes)}</p>
             </div>
-            {props.isAdmin ? (
+            {isAdmin ? (
                 <div className="flex justify-evenly gap-1 w-full ">
                     <button
                         className="p-2 rounded-md w-full bg-blue-400 hover:cursor-pointer"
