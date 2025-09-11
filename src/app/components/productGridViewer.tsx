@@ -38,7 +38,6 @@ export default function ProductGridViewer() {
                     <ProductViewCard
                         key={product.product_id}
                         product={product}
-                        isAdmin={true}
                     />
                 ))}
             </div>

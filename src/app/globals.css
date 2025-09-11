@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+    --hero-height: 24rem;
     --background: #ffffff;
     --foreground: #171717;
 }
