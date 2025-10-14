@@ -3,6 +3,7 @@ import Image from "next/image";
 import ReviewForm from "./reviewForm";
 import ReviewGridViewer from "./reviewGridViewer";
 import { useState } from "react";
+import { useGlobalContext } from "../context/globalContext";
 
 interface productPageProps {
     product: IProduct;
@@ -10,6 +11,8 @@ interface productPageProps {
 
 export default function ProductPage({ product }: productPageProps) {
     const [refetchTrigger, setRefetchTrigger] = useState<boolean>(false);
+    const { addToCart } = useGlobalContext();
+
     return (
         <div>
             <div className="flex justify-evenly gap-10 p-4 ">
@@ -28,6 +31,12 @@ export default function ProductPage({ product }: productPageProps) {
                     <p>Sizes: {product.sizes}</p>
                     <button className="p-1 bg-green-400 rounded-md">
                         Buy Now
+                    </button>
+                    <button
+                        onClick={() => addToCart(product.product_id)}
+                        className="p-1 bg-green-400 rounded-md"
+                    >
+                        Add to Cart
                     </button>
                 </div>
             </div>
