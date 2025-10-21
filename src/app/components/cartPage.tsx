@@ -42,6 +42,14 @@ export default function CartPage() {
                     product_amount={cartItem.product_amount}
                 />
             ))}
+
+            <form action="/api/checkout_sessions" method="POST">
+                <section>
+                    <button type="submit" role="link">
+                        Checkout
+                    </button>
+                </section>
+            </form>
         </div>
     );
 }

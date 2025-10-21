@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-
-import { stripe } from "../../../lib/stripe";
+import { stripe } from "../../lib/stripe";
+import { Constants } from "@/app/constants";
 
 export async function POST() {
     try {
@@ -25,14 +25,14 @@ export async function POST() {
                 },
             ],
             mode: "payment",
-            success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/cancel`,
+            success_url: `${Constants.client_url}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${Constants.client_url}/cancel`,
             metadata: {
                 productId: 1, // helpful for your webhook
             },
         });
         return NextResponse.redirect(session.url, 303);
-    } catch (err) {
+    } catch (err: any) {
         return NextResponse.json(
             { error: err.message },
             { status: err.statusCode || 500 },
