@@ -4,7 +4,7 @@ import { useGlobalContext } from "../context/globalContext";
 import ProductListView from "./productListView";
 import { IProduct } from "./productViewCard";
 
-interface CartItem {
+export interface CartItem {
     product: IProduct;
     product_amount: number;
 }
@@ -16,11 +16,10 @@ export default function CartPage() {
     useEffect(() => {
         const loadProducts = async () => {
             const result = await fetchCartProducts();
-            console.log("Fetched products:", result);
 
             const productsArray: CartItem[] = Object.values(result).map(
                 (cartItem: any) => ({
-                    product: cartItem.product ?? cartItem, // handle different backend shapes
+                    product: cartItem.product ?? cartItem,
                     product_amount: cart.has(cartItem.product_id)
                         ? cart.get(cartItem.product_id)
                         : 0,
@@ -33,6 +32,11 @@ export default function CartPage() {
         loadProducts();
     }, []);
 
+    // Wait until products are loaded
+    if (products.length === 0) {
+        return <div>Loading cart...</div>;
+    }
+
     return (
         <div>
             {products.map((cartItem) => (
@@ -44,6 +48,12 @@ export default function CartPage() {
             ))}
 
             <form action="/api/checkout_sessions" method="POST">
+                {/* Only render this once products are ready */}
+                <input
+                    type="hidden"
+                    name="products"
+                    value={JSON.stringify(products)}
+                />
                 <section>
                     <button type="submit" role="link">
                         Checkout

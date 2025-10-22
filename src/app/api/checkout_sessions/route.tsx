@@ -1,38 +1,50 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { stripe } from "../../lib/stripe";
+import { stripe } from "@/app/lib/stripe";
 import { Constants } from "@/app/constants";
 
-export async function POST() {
+export async function POST(req: Request) {
     try {
-        const headersList = await headers();
-        const origin = headersList.get("origin");
+        const formData = await req.formData();
+        const productsRaw = formData.get("products");
+        if (!productsRaw) {
+            throw new Error("No products found in request body.");
+        }
 
-        // Create Checkout Sessions from body params.
-        const session = await stripe.checkout.sessions.create({
-            line_items: [
-                {
-                    price_data: {
-                        currency: "usd",
-                        product_data: {
-                            name: "Test",
-                            description: "product.description",
-                            // optional: images: [product.imageUrl],
-                        },
-                        unit_amount: Math.round(5 * 100), // convert $ to cents
+        const products = JSON.parse(productsRaw as string);
+        if (!Array.isArray(products) || products.length === 0) {
+            throw new Error("Products list is empty or invalid.");
+        }
+
+        const line_items = products.map((item: any) => {
+            const p = item.product;
+            if (!p?.title) {
+                throw new Error(`Invalid product data: missing title`);
+            }
+
+            return {
+                price_data: {
+                    currency: "usd",
+                    product_data: {
+                        name: p.title, // ✅ use title instead of name
+                        images: p.image ? [p.image] : [],
+                        description: p.description || "",
                     },
-                    quantity: 1,
+                    unit_amount: Math.round(p.price * 100),
                 },
-            ],
+                quantity: item.product_amount,
+            };
+        });
+
+        const session = await stripe.checkout.sessions.create({
+            line_items,
             mode: "payment",
             success_url: `${Constants.client_url}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${Constants.client_url}/cancel`,
-            metadata: {
-                productId: 1, // helpful for your webhook
-            },
         });
+
         return NextResponse.redirect(session.url, 303);
     } catch (err: any) {
+        console.error("Stripe checkout error:", err);
         return NextResponse.json(
             { error: err.message },
             { status: err.statusCode || 500 },

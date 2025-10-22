@@ -1,9 +1,11 @@
+"use client";
 import { IProduct } from "@/app/components/productViewCard";
 import Image from "next/image";
 import ReviewForm from "./reviewForm";
 import ReviewGridViewer from "./reviewGridViewer";
 import { useState } from "react";
 import { useGlobalContext } from "../context/globalContext";
+import { useRouter } from "next/navigation";
 
 interface productPageProps {
     product: IProduct;
@@ -11,7 +13,8 @@ interface productPageProps {
 
 export default function ProductPage({ product }: productPageProps) {
     const [refetchTrigger, setRefetchTrigger] = useState<boolean>(false);
-    const { addToCart } = useGlobalContext();
+    const router = useRouter();
+    const { addToCart, isLoggedIn } = useGlobalContext();
 
     return (
         <div>
@@ -33,8 +36,12 @@ export default function ProductPage({ product }: productPageProps) {
                         Buy Now
                     </button>
                     <button
-                        onClick={() => addToCart(product.product_id)}
-                        className="p-1 bg-green-400 rounded-md"
+                        onClick={() =>
+                            isLoggedIn
+                                ? addToCart(product.product_id)
+                                : router.push("/account")
+                        }
+                        className="p-1 bg-green-400 rounded-md hover:cursor-pointer"
                     >
                         Add to Cart
                     </button>

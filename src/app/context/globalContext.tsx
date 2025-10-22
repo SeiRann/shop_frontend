@@ -11,6 +11,7 @@ type GlobalContextType = {
     cart: Map<string, number>;
     addToCart: (product_id: string) => void;
     fetchCartProducts: () => {};
+    cartTotalQuantity: number;
 };
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -20,12 +21,14 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [cart, setCart] = useState<Map<string, number>>(new Map());
+    const [cartTotalQuantity, setCartQuantity] = useState(0);
 
     const addToCart = (product_id: string) => {
         setCart((prev) => {
             const newCart = new Map(prev);
             const qty = newCart.get(product_id) ?? 0; // fallback to 0 if undefined
             newCart.set(product_id, qty + 1);
+            setCartQuantity(cartTotalQuantity + 1);
             return newCart;
         });
     };
@@ -92,6 +95,7 @@ export function GlobalProvider({ children }: { children: React.ReactNode }) {
                 cart,
                 addToCart,
                 fetchCartProducts,
+                cartTotalQuantity,
             }}
         >
             <NavBar />
