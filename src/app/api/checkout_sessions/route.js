@@ -40,6 +40,9 @@ export async function POST(req) {
             mode: "payment",
             success_url: `${Constants.client_url}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${Constants.client_url}/cancel`,
+            shipping_address_collection: {
+                allowed_countries: ["US", "CA", "GB"], // only allow these countries
+            },
             metadata: {
                 products: JSON.stringify(products),
             },
