@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/app/lib/stripe";
 import { Constants } from "@/app/constants";
 
-export async function POST(req: Request) {
+export async function POST(req) {
     try {
         const formData = await req.formData();
         const productsRaw = formData.get("products");
@@ -10,12 +10,12 @@ export async function POST(req: Request) {
             throw new Error("No products found in request body.");
         }
 
-        const products = JSON.parse(productsRaw as string);
+        const products = JSON.parse(productsRaw);
         if (!Array.isArray(products) || products.length === 0) {
             throw new Error("Products list is empty or invalid.");
         }
 
-        const line_items = products.map((item: any) => {
+        const line_items = products.map((item) => {
             const p = item.product;
             if (!p?.title) {
                 throw new Error(`Invalid product data: missing title`);
@@ -40,10 +40,13 @@ export async function POST(req: Request) {
             mode: "payment",
             success_url: `${Constants.client_url}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${Constants.client_url}/cancel`,
+            metadata: {
+                products: JSON.stringify(products),
+            },
         });
 
         return NextResponse.redirect(session.url, 303);
-    } catch (err: any) {
+    } catch (err) {
         console.error("Stripe checkout error:", err);
         return NextResponse.json(
             { error: err.message },
