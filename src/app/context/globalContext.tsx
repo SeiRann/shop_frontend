@@ -10,6 +10,7 @@ type GlobalContextType = {
     setIsAdmin: (val: boolean) => void;
     cart: Map<string, number>;
     addToCart: (product_id: string) => void;
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     fetchCartProducts: () => {};
     cartTotalQuantity: number;
 };

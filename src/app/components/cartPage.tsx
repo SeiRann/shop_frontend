@@ -18,6 +18,7 @@ export default function CartPage() {
             const result = await fetchCartProducts();
 
             const productsArray: CartItem[] = Object.values(result).map(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (cartItem: any) => ({
                     product: cartItem.product ?? cartItem,
                     product_amount: cart.get(cartItem.product_id) ?? 0,

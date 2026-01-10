@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 
 import { stripe } from "../lib/stripe";
 
-export default async function Success({ searchParams }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function Success({ searchParams }: { searchParams: any }) {
     const { session_id } = await searchParams;
 
     if (!session_id)

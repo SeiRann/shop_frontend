@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 interface IProductDeleteFormProps {
     props: {
-        product_id: string;
+        product_id: string | undefined;
     };
 }
 

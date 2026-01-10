@@ -5,7 +5,7 @@ import { IProduct } from "./productViewCard";
 import Image from "next/image";
 
 interface UpdateProductFormProps {
-    product: IProduct;
+    product: IProduct | undefined;
 }
 
 export default function UpdateProductForm({ product }: UpdateProductFormProps) {
