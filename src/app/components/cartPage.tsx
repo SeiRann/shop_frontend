@@ -20,9 +20,7 @@ export default function CartPage() {
             const productsArray: CartItem[] = Object.values(result).map(
                 (cartItem: any) => ({
                     product: cartItem.product ?? cartItem,
-                    product_amount: cart.has(cartItem.product_id)
-                        ? cart.get(cartItem.product_id)
-                        : 0,
+                    product_amount: cart.get(cartItem.product_id) ?? 0,
                 }),
             );
 
@@ -30,7 +28,7 @@ export default function CartPage() {
         };
 
         loadProducts();
-    }, []);
+    }, [fetchCartProducts, cart]);
 
     // Wait until products are loaded
     if (products.length === 0) {

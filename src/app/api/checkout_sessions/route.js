@@ -15,6 +15,12 @@ export async function POST(req) {
             throw new Error("Products list is empty or invalid.");
         }
 
+        console.log(products);
+        const productAmounts = products.map((product) => ({
+            id: product.product.product,
+            amount: product.product_amount,
+        }));
+
         const line_items = products.map((item) => {
             const p = item.product;
             if (!p?.title) {
@@ -27,12 +33,21 @@ export async function POST(req) {
                     product_data: {
                         name: p.title, // ✅ use title instead of name
                         images: p.image ? [p.image] : [],
-                        description: p.description || "",
                     },
                     unit_amount: Math.round(p.price * 100),
                 },
                 quantity: item.product_amount,
             };
+        });
+
+        const createOrder = await fetch(`${Constants.server_url}/order/`, {
+            method: "POST",
+            body: {
+                status: "waiting payment",
+                address: "",
+            },
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
         });
 
         const session = await stripe.checkout.sessions.create({
@@ -44,11 +59,13 @@ export async function POST(req) {
                 allowed_countries: ["US", "CA", "GB"], // only allow these countries
             },
             metadata: {
-                products: JSON.stringify(products),
+                //send user id
             },
         });
 
-        return NextResponse.redirect(session.url, 303);
+        const res = NextResponse.redirect(session.url, 303);
+        res.cookies.set("orderData", JSON.stringify(productAmounts));
+        return res;
     } catch (err) {
         console.error("Stripe checkout error:", err);
         return NextResponse.json(
